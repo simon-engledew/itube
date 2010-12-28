@@ -1,0 +1,8 @@
+!!! 5
+%html
+  %head
+    = stylesheet_link_tag :all
+    = csrf_meta_tag
+    = yield :head
+  %body
+    = yield
