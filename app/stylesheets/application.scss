@@ -1,0 +1,37 @@
+@mixin min-height($height)
+{
+  min-height: $height;
+  height: expression(document.body.clientHeight < #{ integer($height) } ? #{ $height } : 'auto');
+}
+
+* {
+  font-family: Ubuntu, Verdana, sans-serif;
+}
+
+body
+{
+  padding: 2em;
+}
+
+h1 {
+  padding: 10px;
+  font-size: 16pt;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+#channels
+{
+  > li
+  {
+    @include min-height(16px);
+    font-size: 10pt;
+    margin-bottom: 1em;
+    background: no-repeat url('http://s.ytimg.com/yt/favicon-vflZlzSbU.ico') left;
+    padding-left: 26px;
+  }
+  > li.blip
+  {
+    background: none;
+  }
+}

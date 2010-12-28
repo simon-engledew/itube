@@ -1,8 +1,11 @@
 !!! 5
 %html
   %head
+    %link(href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css')
+    %link(rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset-min.css")
     = stylesheet_link_tag :all
     = csrf_meta_tag
+    %title Starcraft Channels
     = yield :head
   %body
     = yield
