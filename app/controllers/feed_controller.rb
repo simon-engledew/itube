@@ -7,7 +7,6 @@ class FeedController < ApplicationController
   caches_action :index, :expires_in => 5.minutes
   
   def new
-    
   end
   
   def show
@@ -15,10 +14,13 @@ class FeedController < ApplicationController
   end
   
   def index
-    url = "http://gdata.youtube.com/feeds/base/users/#{ params[:username] }/uploads?alt=rss&v=2&orderby=published"
-    @youtube_feed = Feedzirra::Feed.fetch_and_parse(url)
-    @youtube_feed.entries.each do |entry|    
+    request = EventMachine::HttpRequest.new("http://gdata.youtube.com/feeds/base/users/#{ params[:username] }/uploads?alt=rss&v=2&orderby=published").get
+    @youtube_feed = Feedzirra::Feed.parse(request.response)
+    @videos = {}
+    @youtube_feed.entries.each do |entry|
+      puts entry.url
       entry.summary = Nokogiri::HTML(entry.summary)
+      entry.published = DateTime.parse(entry.published)
     end
     Rails.logger.info("Found #{ @youtube_feed.entries.count } entries.")
   end

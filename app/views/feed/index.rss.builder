@@ -17,9 +17,9 @@ xml.rss(itunes_namespace) do
     xml.lastBuildDate(@youtube_feed.last_modified.to_s(:rfc822))
     xml.pubDate(@youtube_feed.last_modified.to_s(:rfc822))
     @youtube_feed.entries.each do |entry|
-      enclosure = Cache.read(entry.entry_id) do
+      enclosure = # Cache.read(entry.entry_id) do
         Video.new(entry.url).enclosure
-      end
+      # end
       xml.item do
         xml.guid(entry.entry_id, :isPermaLink => 'false')
         xml.link(entry.url)

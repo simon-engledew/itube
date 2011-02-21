@@ -5,12 +5,12 @@ class Video
     attr_reader :identifier, :url, :content_type, :length
     
     def initialize(identifier, url)
-      response = Net::HTTP.head_response(url)
+      request = EventMachine::HttpRequest.new(url).head
 
-      @url = url      
+      @url = url
       @identifier = identifier
-      @content_type = response['Content-type']
-      @length = response['Content-Length']
+      @content_type = request.response_header['CONTENT_TYPE']
+      @length = request.response_header.content_length
     end
   end
   
@@ -22,19 +22,24 @@ class Video
   ]
   
   attr_reader :url, :identifier, :ticket, :formats
-  
+  # thin -D
   def initialize(url)
-    document = Feedzirra::Feed.fetch_raw(url)
+    request = EventMachine::HttpRequest.new(url).get
+    response = request.response
     
     @url = url
-    @identifier = document[/\&video_id=([^(\&|$)]*)/, 1]
+    
+    puts @url
+    # puts response
+    
+    @identifier = response[/\&video_id=([-_a-zA-Z0-9]*)/, 1]
     
     Cache[@identifier] = @url
     
     # volatile
-    @ticket = document[/\&t=([^(\&|$)]*)/, 1]
+    @ticket = response[/\&t=([^(\&|$)]*)/, 1]
     @formats = {}.tap do |formats|
-      document[/\&fmt_url_map=([^(\&|$)]*)/, 1].split(/%2C|,/).map{ |s| s.split(/%7C|\|/) }.map {|key, value| [key.to_i, value] }.select{ |key, value| Video::FORMATS.include?(key) }.each do |key, value|
+      response[/\&fmt_url_map=([^(\&|$)]*)/, 1].split(/%2C|,/).map{ |s| s.split(/%7C|\|/) }.map {|key, value| [key.to_i, value] }.select{ |key, value| Video::FORMATS.include?(key) }.each do |key, value|
         formats[key] = CGI::unescape(value).gsub(/\\\//, '/')
       end
     end
