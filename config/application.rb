@@ -13,7 +13,6 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 require 'rss'
 require 'rss/itunes'
 require './lib/cache'
-require './lib/head_response'
 require 'sass/script'
 module Sass::Script::Functions
   def integer(pixels)

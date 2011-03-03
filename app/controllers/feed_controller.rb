@@ -18,7 +18,6 @@ class FeedController < ApplicationController
     @youtube_feed = Feedzirra::Feed.parse(request.response)
     @videos = {}
     @youtube_feed.entries.each do |entry|
-      puts entry.url
       entry.summary = Nokogiri::HTML(entry.summary)
       entry.published = DateTime.parse(entry.published)
     end

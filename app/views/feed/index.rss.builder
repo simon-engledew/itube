@@ -6,7 +6,7 @@ xml.rss(itunes_namespace) do
     xml.image do
       xml.link(@youtube_feed.url)
       xml.url(@youtube_feed.entries.first.summary.css('img').first['src'])
-      xml.title(@youtube_feed.title)
+      xml.title(@youtube_feed.title[/Uploads by (.*)/, 1])
     end
     @youtube_feed.entries.map{ |entry| entry.author }.to_set.to_a.to_sentence.tap do |authors|
       xml.description "YouTube feed for #{ authors }"

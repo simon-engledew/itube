@@ -7,17 +7,22 @@ class Cache
       end
       return value
     end
+    
+    def sanitize(key)
+      raise 'empty key' if key.blank?
+      Base64.encode64(key)
+    end
 
     def [](key)
-      Rails.cache.read(key)
+      Rails.cache.read(sanitize(key))
     end
 
     def []=(key, value)
-      Rails.cache.write(key, value, :expires_at => 5.minutes)
+      Rails.cache.write(sanitize(key), value, :expires_at => 5.minutes)
     end
 
     def clear(key)
-      Rails.cache.delete(key)
+      Rails.cache.delete(sanitize(key))
     end
   end
 end
