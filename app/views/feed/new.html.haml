@@ -3,8 +3,5 @@
 %ul#channels
   - for author in %w(stratbunker PsyStarcraft ArtosisTV MatronStarcraft AskJoshy TeamLiquidNet xHydrax SaharaDrac HunterStarcraft iCCupTV) do
     %li
-      = link_to author, channel_url(:username => author) #, :protocol => 'itpc')
+      = link_to author, channel_url(:username => author), :protocol => 'itpc')
       (#{ link_to 'channel', 'http://www.youtube.com/' + author })
-  %li.blip
-    = link_to 'day9tv', 'itpc://day9tv.blip.tv/rss/itunes/'
-    (#{ link_to 'channel', 'http://day9tv.blip.tv' })
