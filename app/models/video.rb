@@ -21,6 +21,9 @@ class Video
     38, # => 'MP4 Original (HD)',
   ]
   
+  class UnavailableError < StandardError
+  end
+  
   attr_reader :url, :identifier, :ticket, :formats
   # thin -D
   def initialize(url)
@@ -29,17 +32,21 @@ class Video
     
     @url = url
     
-    puts @url
-
+    raise Video::UnavailableError.new if response.include?('watch-player-unavailable-message-container')
+    
     @identifier = response[/video_id=([-_a-zA-Z0-9]*)/, 1]
     
-    raise 'no identifier' if @identifier.blank?
+    raise "no identifer for #{ url }" if @identifier.blank?
     
     Cache[@identifier] = @url
     
     # volatile
     @formats = {}.tap do |formats|
-      response[/fmt_url_map=([-_%.a-zA-Z0-9]*)/, 1].split(/%2C|,/).map{ |s| s.split(/%7C|\|/) }.map {|key, value| [key.to_i, value] }.select{ |key, value| Video::FORMATS.include?(key) }.each do |key, value|
+      response[/fmt_url_map=([-_%.a-zA-Z0-9]*)/, 1].split(/%2C|,/).
+        map{ |s| s.split(/%7C|\|/) }.
+        map {|key, value| [key.to_i, value] }.
+        select{ |key, value| Video::FORMATS.include?(key) }.
+        each do |key, value|
         formats[key] = CGI::unescape(value).gsub(/\\\//, '/')
       end
     end
