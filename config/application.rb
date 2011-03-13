@@ -12,8 +12,8 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 require 'rss'
 require 'rss/itunes'
-require './lib/cache'
 require 'sass/script'
+
 module Sass::Script::Functions
   def integer(pixels)
     assert_type pixels, :Number
@@ -54,7 +54,7 @@ module YoutubeChannel
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
-
+    
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
   end

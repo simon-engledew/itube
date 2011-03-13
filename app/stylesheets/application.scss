@@ -15,23 +15,40 @@ body
 
 h1 {
   padding: 10px;
-  font-size: 16pt;
-  font-weight: bold;
+  font: bold 16pt Arial;
   margin-bottom: 0.5em;
 }
 
-#channels
-{
-  > li
-  {
-    @include min-height(16px);
-    font-size: 10pt;
-    margin-bottom: 1em;
-    background: no-repeat url('http://s.ytimg.com/yt/favicon-vflZlzSbU.ico') left;
-    padding-left: 26px;
-  }
-  > li.blip
-  {
-    background: none;
-  }
+form {
+  background: #e5e5e5;
+  padding: 10px;
+  border: solid 1px #777;
+  -webkit-border-radius: 9px;
+  -webkit-box-shadow: 1px 1px 1px #eee;
+}
+
+input[type='submit']:active {
+  background: -webkit-linear-gradient(top, #999, #888);
+}
+
+input[type='submit'] {
+  -webkit-appearance: none;
+  -webkit-box-shadow: 1px 1px 1px #fff;
+  -webkit-border-radius: 0.5em;
+  border: 1px solid #555;
+  padding: 0.5em;
+  font-size: 15px;
+  line-height: 1.2em;
+  outline: none;
+}
+
+input[type='text'] {
+  -webkit-appearance: none;
+  -webkit-box-shadow: 1px 1px 1px #fff;
+  -webkit-border-radius: 0.5em;
+  border: 1px solid #555;
+  padding: 0.5em;
+  font-size: 15px;
+  line-height: 1.2em;
+  outline: none;
 }

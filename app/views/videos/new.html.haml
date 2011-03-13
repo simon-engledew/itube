@@ -1,0 +1,6 @@
+%h1 YouTube Channel to iTunes Converter
+
+- form_tag videos_url(:protocol => 'http'), :autocomplete => 'off' do
+  %label{:for => 'name'} Channel Name
+  %input{:type => 'text', :name => 'name'}
+  %input{:type => 'submit', :value => 'Add to iTunes'}

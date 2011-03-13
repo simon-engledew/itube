@@ -1,8 +1,8 @@
 YoutubeChannel::Application.routes.draw do
   
-  root :to => 'feed#new'
-  match 'channels/:username.rss' => 'feed#index', :as => 'channel', :format => 'rss'
-  match 'videos/:identifier.m4v' => 'feed#show', :as => 'video'
+  root :to => 'videos#new'
+  match 'videos.rss' => 'videos#index', :as => 'videos', :format => 'rss'
+  match 'videos/:identifier.m4v' => 'videos#show', :as => 'video'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

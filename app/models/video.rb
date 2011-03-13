@@ -1,5 +1,3 @@
-require 'open-uri'
-
 class Video
   class Enclosure
     attr_reader :identifier, :url, :content_type, :length
