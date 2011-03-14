@@ -41,12 +41,12 @@ class Video
     # volatile
     @formats = {}.tap do |formats|
       response[/fmt_url_map=([-_%.a-zA-Z0-9]*)/, 1].split(/%2C|,/).
-        map{ |s| s.split(/%7C|\|/) }.
-        map {|key, value| [key.to_i, value] }.
-        select{ |key, value| Video::FORMATS.include?(key) }.
+        map { |s| s.split(/%7C|\|/) }.
+        map { |key, value| [key.to_i, value] }.
+        select { |key, value| Video::FORMATS.include?(key) }.
         each do |key, value|
-        formats[key] = CGI::unescape(value).gsub(/\\\//, '/')
-      end
+          formats[key] = CGI::unescape(value).gsub(/\\\//, '/')
+        end
     end
   end
   
